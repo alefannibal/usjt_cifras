@@ -30,7 +30,7 @@ app.put('/musica/:id/cifra', async (req, res) => {
 });
 
 app.get('/musica/:id/cifra', (req, res) => {
-
+    res.send(cifrasPorMusicaId[req.params.id] || []);
 });
 
 app.listen(5000, (() => {

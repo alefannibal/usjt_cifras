@@ -12,8 +12,10 @@ const evento = req.body;
  axios.post('http://localhost:4000/eventos', evento);
  //envia o evento para o microsserviço de observações
  axios.post('http://localhost:5000/eventos', evento);
+ //envia o evento para o microsserviço de consulta
+ axios.post("http://localhost:6000/eventos", evento);
  res.status(200).send({ msg: "ok" });
- });
+});
 
  app.listen(10000, () => {
  console.log('Barramento de eventos. Porta 10000.')
