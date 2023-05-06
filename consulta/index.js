@@ -7,11 +7,11 @@ const baseConsulta = {};
 const funcoes = {
     
     MusicaCriada: (musica) => {
-    baseConsulta[lembrete.contador] = lembrete;
+    baseConsulta[musica.contador] = musica;
      },
     cifraCriada: (cifra) => {
-    const observacoes =
-    baseConsulta[cifra.lembreteId]["cifra"] ||
+    const cifras =
+    baseConsulta[cifra.musicaId]["cifra"] ||
     [];
     observacoes.push(cifra);
     baseConsulta[cifra.lembreteId]["cifra"] =
