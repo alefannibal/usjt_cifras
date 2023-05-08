@@ -5,32 +5,23 @@ app.use(express.json());
 const baseConsulta = {};
 
 const funcoes = {
-    
-    MusicaCriada: (musica) => {
-    baseConsulta[musica.contador] = musica;
-     },
-    cifraCriada: (cifra) => {
-    const cifras =
-    baseConsulta[cifra.musicaId]["cifra"] ||
-    [];
-    observacoes.push(cifra);
-    baseConsulta[cifra.lembreteId]["cifra"] =
-    cifra;
+    MusicaPublicada: (musica) => {
+        baseConsulta[musica.contador] = musica;
+    },
+    CifrasCriadas: (cifra) => {
+        const cifras = baseConsulta[cifra.MusicaId]["cifras"] || [];
+        cifras.push(cifra);
+        baseConsulta[cifra.MusicaId]["cifras"] = cifras;
     }
-    };
+};
 
-app.get("/lembretes", (req, res) => {
+app.get("/musica", (req, res) => {
     res.status(200).send(baseConsulta);
 });
-    
+
 app.post("/eventos", (req, res) => {
     funcoes[req.body.tipo](req.body.dados);
     res.status(200).send(baseConsulta);
-     });
-        
-    
-app.get("/lembretes", (req, res) => {});
-
- app.post("/eventos", (req, res) => {});
+});
 
 app.listen(6000, () => console.log("Consultas. Porta 6000"));
