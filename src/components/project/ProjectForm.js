@@ -1,7 +1,6 @@
 import Input from '../form/Input.js'
 import SubmitButton from '../form/SubmitButton.js'
 import styles from './ProjectForm.module.css'
-
 function ProjectForm(btnText){
   return (
     <form className={styles.form}>

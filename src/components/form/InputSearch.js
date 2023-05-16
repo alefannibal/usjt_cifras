@@ -1,10 +1,10 @@
-import styles from './InputSearch.module.css'
 
-function InputSearch(type, name, placeholder, value) {
+import styles from './InputSearch.module.css';
+
+function InputSearch({ type, name, placeholder, value }) {
   return (
     <div className={styles.form_control}>
-
-      <input 
+      <input
         type={type}
         name={name}
         id={name}
@@ -12,7 +12,7 @@ function InputSearch(type, name, placeholder, value) {
         value={value}
       />
     </div>
-  )
+  );
 }
 
-export default InputSearch
+export default InputSearch;

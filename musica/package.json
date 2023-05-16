@@ -3,6 +3,7 @@
     "axios": "^1.3.5",
     "cors": "^2.8.5",
     "express": "^4.18.2",
+    "mongoose": "^7.1.1",
     "nodemon": "^2.0.22"
   },
   "name": "musica",
@@ -15,6 +16,5 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "devDependencies": {},
   "description": ""
 }

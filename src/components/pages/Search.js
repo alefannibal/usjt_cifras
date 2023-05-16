@@ -1,3 +1,4 @@
+
 import SubmitSearch from "../form/SubmitSearch";
 import FormSearch from "../project/FormSearch";
 import styles from "./Search.module.css";
@@ -22,7 +23,7 @@ const musics = [
 ];
 
 function MusicCard({ title, imgSrc }) {
-  return (
+  return(
     <div className={styles.music_card}>
       <img src={imgSrc} alt={`imagem música - ${title}`} />
       <h2>{title}</h2>

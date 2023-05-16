@@ -1,11 +1,12 @@
-import styles from './SubmitButton.module.css'
+
+import styles from './SubmitCad.module.css';
 
 function SubmitCad() {
   return (
     <div>
       <button className={styles.btn}>Enviar cadastro</button>
     </div>
-  )
+  );
 }
 
-export default SubmitCad
+export default SubmitCad;

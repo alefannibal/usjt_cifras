@@ -2,7 +2,7 @@ import InputSearch from '../form/InputSearch'
 import styles from './FormSearch.module.css'
 
 function FormSearch(){
-  return( 
+  return ( 
     <form className={styles.form}>
       <InputSearch
         type="text" 

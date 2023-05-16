@@ -1,10 +1,11 @@
+import { createRoot } from 'react-dom';
+import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Home from "./components/pages/Home";
 import Login from "./components/pages/Login";
 import AddMusica from "./components/pages/AddMusica";
 import Search from "./components/pages/Search";
 import MySongs from "./components/pages/MySongs";
-
 import Container from "./components/layout/Container";
 import Navbar from "./components/layout/Navbar";
 import Footer from "./components/layout/Footer";
@@ -13,8 +14,8 @@ function App() {
   return (
     <Router>
       <Navbar />
-      <Switch>
-        <Container>
+      <Container>
+        <Switch>
           <Route exact path="/">
             <Home />
           </Route>
@@ -30,8 +31,8 @@ function App() {
           <Route exact path="/MySongs">
             <MySongs />
           </Route>
-        </Container>
-      </Switch>
+        </Switch>
+      </Container>
       <Footer />
     </Router>
   );

@@ -1,11 +1,10 @@
 import { Link } from "react-router-dom";
-
 import ProjectForm from "../project/ProjectForm";
 import styles from "./Home.module.css";
 import fundo from "../../img/fundo.jpg";
 
 function Home() {
-  return (
+  return(
     <>
       <div className={styles.code}>
         <section className={`${styles.hello}`}>
