@@ -1,8 +1,16 @@
 const mongoose = require('mongoose');
+const Musica = require('../musica/musicaModel');
 
 const cifraSchema = new mongoose.Schema({
-  _id: { type: mongoose.Schema.Types.ObjectId, required: true },
-  cifra: { type: String, required: true },
+  texto: {
+    type: String,
+    required: true,
+  },
+  MusicaId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Musica',
+    required: true,
+  },
 });
 
 const Cifra = mongoose.model('Cifra', cifraSchema);

@@ -2,17 +2,19 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const axios = require('axios');
 const mongoose = require('mongoose');
-const Cifra = require('./cifraModel'); // Importe o modelo de cifras
-
-const mongoURI = 'mongodb://localhost:27017/db-musi-code';
-mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log('Conexão com o MongoDB estabelecida.'))
-  .catch(err => console.error('Erro ao conectar ao MongoDB:', err));
-
 const app = express();
 app.use(bodyParser.json());
 
-const { v4: uuidv4 } = require('uuid');
+mongoose
+  .connect('mongodb://localhost:27017/db-musi-code-cifra', {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => console.log('Conexão com o MongoDB de cifra estabelecida.'))
+  .catch((err) => console.error('Erro ao conectar ao MongoDB de cifra:', err));
+
+const Cifra = require('./cifraModel');
+const Musica = require('../musica/musicaModel');
 
 app.post('/eventos', (req, res) => {
   console.log(req.body);
@@ -20,28 +22,25 @@ app.post('/eventos', (req, res) => {
 });
 
 app.put('/musica/:id/cifra', async (req, res) => {
-  const idCifra = uuidv4();
   const { texto } = req.body;
+  const { id } = req.params; // Extrair o valor do ID da música
 
   try {
-    const novaCifra = new Cifra({
-      _id: idCifra,
+    const cifra = new Cifra({
       texto,
-      musicaId: req.params.id
+      MusicaId: id, // Atribuir o valor do ID da música ao campo MusicaId
     });
 
-    await novaCifra.save();
+    await cifra.save();
 
-    await axios.post('http://localhost:10000/eventos', {
-      tipo: 'CifrasCriadas',
-      dados: {
-        id: idCifra,
-        texto,
-        musicaId: req.params.id
-      }
-    });
-
-    res.status(201).send(novaCifra);
+    const musica = await Musica.findById(id);
+    if (musica) {
+      musica.cifra = texto;
+      await musica.save();
+      res.status(201).send({ cifra });
+    } else {
+      throw new Error('Música não encontrada.');
+    }
   } catch (error) {
     console.error('Erro ao salvar a cifra:', error);
     res.status(500).send({ msg: 'Erro ao salvar a cifra.' });
@@ -50,7 +49,7 @@ app.put('/musica/:id/cifra', async (req, res) => {
 
 app.get('/musica/:id/cifra', async (req, res) => {
   try {
-    const cifras = await Cifra.find({ musicaId: req.params.id });
+    const cifras = await Cifra.find({ MusicaId: req.params.id });
     res.send(cifras);
   } catch (error) {
     console.error('Erro ao buscar as cifras:', error);
@@ -59,5 +58,5 @@ app.get('/musica/:id/cifra', async (req, res) => {
 });
 
 app.listen(5000, () => {
-  console.log('Cifras. Porta 5000');
+  console.log('Servidor de cifras iniciado na porta 5000.');
 });

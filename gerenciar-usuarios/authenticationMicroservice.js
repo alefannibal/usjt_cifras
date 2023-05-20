@@ -2,10 +2,12 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const cors = require('cors');
 
+app.use(cors());
 const { registerUser, authenticateUser } = require('./authService'); // Correção no nome do arquivo
 
-const mongoURI = 'mongodb://localhost:27017/db-musi-code';
+const mongoURI = 'mongodb://localhost:27017/db-musi-code-usuarios';
 mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log('Conexão com o MongoDB estabelecida.'))
   .catch(err => console.error('Erro ao conectar ao MongoDB:', err));
@@ -27,15 +29,20 @@ app.post('/register', async (req, res) => {
 });
 
 // Rota de login de usuário
-app.post('/login', (req, res) => {
+app.post('/login', async (req, res) => {
   const { email, password } = req.body;
 
-  const isAuthenticated = authenticateUser(email, password);
-  if (!isAuthenticated) {
+  try {
+    const user = await authenticateUser(email, password);
+
+    if (!user) {
+      return res.status(401).json({ message: 'Credenciais inválidas' });
+    }
+
+    return res.status(200).json({ message: 'Login bem-sucedido' });
+  } catch (error) {
     return res.status(401).json({ message: 'Credenciais inválidas' });
   }
-
-  return res.status(200).json({ message: 'Login bem-sucedido' });
 });
 
 // Iniciar o servidor
