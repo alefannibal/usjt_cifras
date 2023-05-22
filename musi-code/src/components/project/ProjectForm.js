@@ -3,13 +3,14 @@ import Input from '../form/Input.js';
 import SubmitButton from '../form/SubmitButton.js';
 import styles from './ProjectForm.module.css';
 import { Link, useNavigate } from 'react-router-dom';
-function ProjectForm({ btnText }) {
+
+function ProjectForm({ btnText, onAuthentication }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const handleLogin = async (e) => {
+    console.log('Função handleLogin disparada');
     e.preventDefault();
-
     const data = {
       email,
       password
@@ -23,10 +24,10 @@ function ProjectForm({ btnText }) {
         },
         body: JSON.stringify(data),
       });
-
       if (response.ok) {
         // Login bem-sucedido
         console.log('Login bem-sucedido');
+        onAuthentication();
       } else {
         // Lidar com erros de login
         const errorData = await response.json();
@@ -37,22 +38,29 @@ function ProjectForm({ btnText }) {
     }
   };
 
+  const handleTest = () => {
+    console.log('Função de teste chamada');
+  };
+
   return (
     <form className={styles.form}>
-      <Input 
-        type="text" 
-        text="Email" 
+      <Input
+        type="text"
+        text="Email"
         name="email"
         placeholder="Insira o seu email"
         onChange={(e) => setEmail(e.target.value)}
         value={email}
+        autoComplete="off"
       />
-      <Input 
-        type='password'  
-        text='Senha' 
-        name='password'
-        placeholder='Insira a sua senha'
-        autocomplete='current-password'
+      <Input
+        type="password"
+        text="Senha"
+        name="password"
+        placeholder="Insira a sua senha"
+        autoComplete="off"
+        onChange={(e) => setPassword(e.target.value)}
+        value={password}
       />
       <SubmitButton text={btnText} onClick={handleLogin} />
     </form>

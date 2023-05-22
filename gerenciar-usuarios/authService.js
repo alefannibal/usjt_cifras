@@ -7,13 +7,15 @@ async function registerUser(email, password, confirmPassword, fullName) {
     throw new Error('As senhas não coincidem');
   }
 
-  const existingUser = await Usuario.findOne({ email }); // Verifique se o usuário já existe no banco de dados
+  const existingUser = await Usuario.findOne({ email });
   if (existingUser) {
     throw new Error('Usuário já está registrado');
   }
 
-  const newUser = new Usuario({ email, password, fullName }); // Crie uma nova instância do modelo Usuario
-  await newUser.save(); // Salve o novo usuário no banco de dados
+  const newUser = new Usuario({ email, password, fullName });
+  await newUser.save();
+
+  return newUser; // Retornar o usuário recém-registrado
 }
 
 async function authenticateUser(email, password) {

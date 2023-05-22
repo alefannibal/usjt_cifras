@@ -14,6 +14,25 @@ mongoose
 
 const Musica = require('./musicaModel');
 
+// Middleware para verificar o token de autenticação
+function authenticateToken(req, res, next) {
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1];
+
+  if (!token) {
+    return res.status(401).json({ message: 'Token de autenticação não fornecido' });
+  }
+
+  jwt.verify(token, 'seu_segredo_do_token', (err, user) => {
+    if (err) {
+      return res.status(403).json({ message: 'Falha na autenticação do token' });
+    }
+
+    req.user = user; // Define req.user com as informações do usuário autenticado
+    next();
+  });
+}
+
 app.get('/musica', async (req, res) => {
   try {
     const musicas = await Musica.find();
@@ -24,14 +43,16 @@ app.get('/musica', async (req, res) => {
   }
 });
 
-app.put('/musica', async (req, res) => {
+app.put('/musica', authenticateToken, async (req, res) => {
   const { titulo, letra, autor } = req.body;
+  const userId = req.user.id; // Obtém o ID do usuário autenticado
 
   try {
     const novaMusica = new Musica({
       titulo,
       letra,
       autor,
+      userId, // Salva o ID do usuário no documento de música
     });
     await novaMusica.save();
 

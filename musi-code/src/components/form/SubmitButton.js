@@ -1,11 +1,14 @@
-import styles from './SubmitButton.module.css'
+import React from 'react';
+import styles from './SubmitButton.module.css';
 
-function SubmittButton() {
+function SubmitButton({ text, onClick }) {
   return (
     <div>
-      <button className={styles.btn}>Entrar</button>
+      <button className={styles.btn} onClick={onClick}>
+        {text}
+      </button>
     </div>
-  )
+  );
 }
 
-export default SubmittButton
+export default SubmitButton;

@@ -11,7 +11,7 @@ function FormCad({ btnText }) {
 
   const handleRegister = async (e) => {
     e.preventDefault();
-
+    console.log("Função handleRegister disparada")
     const data = {
       fullName,
       email,

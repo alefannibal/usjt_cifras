@@ -1,3 +1,4 @@
+import React from "react";
 import { Link } from "react-router-dom";
 
 import Container from "./Container";
@@ -10,7 +11,11 @@ import musica from "../../img/musica.png";
 import pesquisar from "../../img/pesquisa.png";
 import sair from "../../img/sair.png";
 
-function Navbar() {
+function Navbar({ authenticated, onAuthentication }) {
+  const handleLogout = () => {
+    onAuthentication(false);
+  };
+
   return (
     <nav className={styles.navbar}>
       <Link to="/">
@@ -47,7 +52,7 @@ function Navbar() {
             </Link>
           </li>
           <li className={styles.item}>
-            <Link to="/Login">
+            <Link to="/" onClick={handleLogout}>
               <img src={sair} alt="MusiCode" placeholder="Sair" />
             </Link>
           </li>

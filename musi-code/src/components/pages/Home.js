@@ -4,7 +4,7 @@ import ProjectForm from "../project/ProjectForm";
 import styles from "./Home.module.css";
 import fundo from "../../img/fundo.jpg";
 
-function Home() {
+function Home({ onAuthentication }) {
   return (
     <>
       <div className={styles.code}>
@@ -14,7 +14,7 @@ function Home() {
           </h1>
 
           <p>Acesse sua conta</p>
-          <ProjectForm btnText="Entrar" />
+          <ProjectForm btnText="Entrar" onAuthentication={onAuthentication} />
           <h5>Esqueci minha senha</h5>
           <h3>
             Não tem uma conta?
