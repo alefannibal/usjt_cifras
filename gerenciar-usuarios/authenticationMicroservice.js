@@ -8,7 +8,8 @@ const jwt = require('jsonwebtoken');
 app.use(cors());
 const { registerUser, authenticateUser } = require('./authService');
 
-const mongoURI = 'mongodb://localhost:27017/db-musi-code-usuarios';
+const mongoURI = 'mongodb://127.0.0.1:27017/db-musi-code-usuarios';
+
 mongoose
   .connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log('Conexão com o MongoDB estabelecida.'))

@@ -2,10 +2,13 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const app = express();
+const jwt = require('jsonwebtoken');
+
 app.use(bodyParser.json());
 
 mongoose
-  .connect('mongodb://localhost:27017/db-musi-code-musica', {
+  .connect('mongodb://127.0.0.1:27017/db-musi-code-musica', { 
+    //mongodb://127.0.0.1:27017/db-musi-code-consulta 
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
@@ -45,7 +48,11 @@ app.get('/musica', async (req, res) => {
 
 app.put('/musica', authenticateToken, async (req, res) => {
   const { titulo, letra, autor } = req.body;
-  const userId = req.user.id; // Obtém o ID do usuário autenticado
+  const userId = req.user && req.user.id; // Obtém o ID do usuário autenticado
+
+  if (!userId) {
+    return res.status(400).json({ message: 'O campo userId é obrigatório.' });
+  }
 
   try {
     const novaMusica = new Musica({
@@ -63,6 +70,27 @@ app.put('/musica', authenticateToken, async (req, res) => {
   }
 });
 
-app.listen(4000, () => {
+
+// app.put('/musica', authenticateToken, async (req, res) => {
+//   const { titulo, letra, autor } = req.body;
+//   const userId = req.user.id; // Obtém o ID do usuário autenticado
+
+//   try {
+//     const novaMusica = new Musica({
+//       titulo,
+//       letra,
+//       autor,
+//       userId, // Salva o ID do usuário no documento de música
+//     });
+//     await novaMusica.save();
+
+//     res.status(201).send(novaMusica);
+//   } catch (error) {
+//     console.error('Erro ao salvar a música:', error);
+//     res.status(500).send({ msg: 'Erro ao salvar a música.' });
+//   }
+// });
+
+  app.listen(4000, () => {
   console.log('Servidor de músicas iniciado na porta 4000.');
-});
+  });

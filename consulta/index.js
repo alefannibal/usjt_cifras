@@ -1,7 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 
-const mongoURI = "mongodb://localhost:27017/db-musi-code";
+const mongoURI = "mongodb://127.0.0.1:27017/db-musi-code-musica";
 mongoose
   .connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log("Conexão com o MongoDB estabelecida."))
@@ -13,9 +13,9 @@ const app = express();
 app.use(express.json());
 
 const MusicaSchema = new mongoose.Schema({
-  nome: String,
-  autor: String,
+  titulo: String,
   letra: String,
+  autor: String,
 });
 
 const Musica = mongoose.model("Musica", MusicaSchema);
@@ -23,7 +23,7 @@ const Musica = mongoose.model("Musica", MusicaSchema);
 app.get("/musica", async (req, res) => {
   try {
     const { titulo } = req.query;
-    const musicas = await Musica.find({ nome: titulo }).exec();
+    const musicas = await Musica.find({ titulo }).exec();
     res.status(200).json(musicas);
   } catch (err) {
     console.error("Erro ao consultar músicas:", err);
@@ -31,4 +31,4 @@ app.get("/musica", async (req, res) => {
   }
 });
 
-app.listen(6000, () => console.log("Consultas. Porta 6000"));
+app.listen(6000, () => console.log("Servidor iniciado na porta 6000."));
