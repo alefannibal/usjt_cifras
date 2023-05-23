@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 import FormCad from "../project/FormCad";
 import styles from "./Login.module.css";
-import fundo from "../../img/fundo.jpg";
+import fundo from "../../img/fundo.png";
 
 function Login() {
   return (

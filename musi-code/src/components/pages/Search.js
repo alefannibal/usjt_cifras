@@ -38,7 +38,7 @@ function Search() {
         <SubmitSearch />
       </div>
       <div className={styles.center}>
-        <h1>Músicas mais acessadas</h1>
+        <h1>Sugestões de Músicas</h1>
         {musics.map((music) => (
           <MusicCard title={music.title} imgSrc={music.imgSrc} />
         ))}
