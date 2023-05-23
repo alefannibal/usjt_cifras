@@ -13,13 +13,13 @@ const musicaSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  cifra: {
-    type: String,
-    default: '',
-  },
   userId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Usuario',
+    required: true,
+  },
+  userEmail: {
+    type: String,
     required: true,
   },
 });

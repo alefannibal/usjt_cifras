@@ -28,7 +28,7 @@ app.post('/register', async (req, res) => {
 
   try {
     const user = await registerUser(email, password, confirmPassword, fullName);
-    const token = generateAuthToken({ id: user._id, email: user.email });
+    const token = generateAuthToken({ id: user._id, email: user.email ,fullName: user.fullName});
 
     return res.status(201).json({ message: 'Usuário registrado com sucesso', token });
   } catch (error) {

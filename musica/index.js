@@ -7,7 +7,7 @@ const jwt = require('jsonwebtoken');
 app.use(bodyParser.json());
 
 mongoose
-  .connect('mongodb://127.0.0.1:27017/db-musi-code-musica', { 
+  .connect('mongodb://localhost:27017/db-musi-code-musica', { 
     //mongodb://127.0.0.1:27017/db-musi-code-consulta 
     useNewUrlParser: true,
     useUnifiedTopology: true,
@@ -49,6 +49,7 @@ app.get('/musica', async (req, res) => {
 app.put('/musica', authenticateToken, async (req, res) => {
   const { titulo, letra, autor } = req.body;
   const userId = req.user && req.user.id; // Obtém o ID do usuário autenticado
+  const userEmail = req.user && req.user.email; // Obtém o nome do usuário autenticado
 
   if (!userId) {
     return res.status(400).json({ message: 'O campo userId é obrigatório.' });
@@ -60,6 +61,7 @@ app.put('/musica', authenticateToken, async (req, res) => {
       letra,
       autor,
       userId, // Salva o ID do usuário no documento de música
+      userEmail, // Salva o nome do usuário no documento de música
     });
     await novaMusica.save();
 
@@ -69,7 +71,6 @@ app.put('/musica', authenticateToken, async (req, res) => {
     res.status(500).send({ msg: 'Erro ao salvar a música.' });
   }
 });
-
 
 // app.put('/musica', authenticateToken, async (req, res) => {
 //   const { titulo, letra, autor } = req.body;

@@ -1,5 +1,3 @@
-const users = [];
-
 const Usuario = require('./usuarioModel');
 
 async function registerUser(email, password, confirmPassword, fullName) {

@@ -4,16 +4,16 @@ const usuarioSchema = new mongoose.Schema({
   email: {
     type: String,
     required: true,
-    unique: true
+    unique: true,
   },
   fullName: {
     type: String,
-    required: true
+    required: true,
   },
   password: {
     type: String,
-    required: true
-  }
+    required: true,
+  },
 });
 
 const Usuario = mongoose.model('Usuario', usuarioSchema);
