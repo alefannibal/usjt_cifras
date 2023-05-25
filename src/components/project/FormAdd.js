@@ -1,8 +1,8 @@
-
 import React, { useState } from 'react';
 import InputAdd from '../form/InputAdd';
 import SubmitAdd from '../form/SubmitAdd';
 import styles from './FormAdd.module.css';
+import axios from 'axios';
 
 function FormAdd({ btnText }) {
   const [formData, setFormData] = useState({
@@ -17,24 +17,15 @@ function FormAdd({ btnText }) {
     const { nome, autor, letra } = formData;
 
     try {
-      const response = await fetch('http://localhost:4000/musica', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          titulo: nome,
-          autor: autor,
-          letra: letra,
-        }),
+      await axios.post('http://localhost:4000/musica', {
+        titulo: nome,
+        autor: autor,
+        letra: letra,
       });
-
-      const data = await response.json();
-      console.log(data);
 
       setFormData({ nome: '', autor: '', letra: '' });
     } catch (error) {
-      console.error(error);
+      console.error('Erro ao adicionar música:', error);
     }
   };
 
@@ -65,7 +56,6 @@ function FormAdd({ btnText }) {
         value={formData.autor}
         onChange={handleInputChange}
       />
-
       <InputAdd
         type="text"
         text="Letra"
@@ -74,7 +64,7 @@ function FormAdd({ btnText }) {
         value={formData.letra}
         onChange={handleInputChange}
       />
-      <SubmitAdd text={btnText} />
+      <SubmitAdd text={btnText} onSubmit={handleSubmit} />
     </form>
   );
 }

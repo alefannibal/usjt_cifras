@@ -5,7 +5,7 @@ function InputAdd({ type, text, name, placeholder, onChange, value }) {
   return (
     <div className={styles.form_control}>
       <label htmlFor={name}>{text}:</label>
-      <input 
+      <input
         type={type}
         name={name}
         id={name}

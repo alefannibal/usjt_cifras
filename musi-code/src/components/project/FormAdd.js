@@ -21,15 +21,17 @@ function FormAdd({ btnText }) {
 
     try {
       console.log('Enviando requisição...');
+
       const token = localStorage.getItem('token');
       console.log('Token:', token);
       if (!token) {
         console.error('Token não encontrado.');
         return;
       }
-      console.log("Token encontrado");
+
       const headers = {
         Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
       };
 
       const data = {
@@ -37,6 +39,7 @@ function FormAdd({ btnText }) {
         letra: formValues.letra,
         autor: formValues.autor,
       };
+
       const response = await axios.post('http://localhost:4000/musica', data, { headers });
 
       console.log('Música adicionada com sucesso!');

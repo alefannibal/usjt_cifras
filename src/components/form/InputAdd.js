@@ -1,4 +1,4 @@
-
+import React from 'react';
 import styles from './InputAdd.module.css';
 
 function InputAdd({ type, text, name, placeholder, onChange, value }) {

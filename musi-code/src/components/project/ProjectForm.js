@@ -4,46 +4,54 @@ import SubmitButton from '../form/SubmitButton.js';
 import styles from './ProjectForm.module.css';
 import { Link, useNavigate } from 'react-router-dom';
 
+async function authenticateUser(email, password) {
+  const response = await fetch('http://localhost:7000/login', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ email, password }),
+  });
+
+  if (response.ok) {
+    // Login successful
+    console.log('Login successful');
+    const { token } = await response.json();
+    return token;
+  } else {
+    // Handle login errors
+    const errorData = await response.json();
+    console.log('Invalid credentials:', errorData.message);
+    throw new Error(errorData.message);
+  }
+}
+
 function ProjectForm({ btnText, onAuthentication }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
   const handleLogin = async (e) => {
-    console.log('Função handleLogin disparada');
+    console.log('handleLogin function triggered');
     e.preventDefault();
-    const data = {
-      email,
-      password
-    };
 
     try {
-      console.log('Chamando endpoint /login...');
-      console.log('Dados de login:', data);
+      console.log('Calling /login endpoint...');
+      console.log('Login data:', email, password);
 
-      const response = await fetch('http://localhost:7000/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      });
+      const token = await authenticateUser(email, password);
 
-      if (response.ok) {
-        // Login bem-sucedido
-        console.log('Login bem-sucedido');
-        onAuthentication();
-      } else {
-        // Lidar com erros de login
-        const errorData = await response.json();
-        console.log('Credenciais inválidas:', errorData.message);
-      }
+      console.log('Authentication token:', token);
+      localStorage.setItem('token', token);
+      onAuthentication(token);
+      navigate('/dashboard');
     } catch (error) {
-      console.log('Credenciais inválidas:', error);
+      console.log('Invalid credentials:', error.message);
     }
   };
 
   const handleTest = () => {
-    console.log('Função de teste chamada');
+    console.log('Test function called');
   };
 
   return (
@@ -52,16 +60,16 @@ function ProjectForm({ btnText, onAuthentication }) {
         type="text"
         text="Email"
         name="email"
-        placeholder="Insira o seu email"
+        placeholder="Enter your email"
         onChange={(e) => setEmail(e.target.value)}
         value={email}
         autoComplete="off"
       />
       <Input
         type="password"
-        text="Senha"
+        text="Password"
         name="password"
-        placeholder="Insira a sua senha"
+        placeholder="Enter your password"
         autoComplete="off"
         onChange={(e) => setPassword(e.target.value)}
         value={password}
