@@ -9,6 +9,7 @@ import MySongs from "./components/pages/MySongs";
 import Container from "./components/layout/Container";
 import Navbar from "./components/layout/Navbar";
 import Footer from "./components/layout/Footer";
+import AllSongs from './components/pages/AllSongs';
 
 function App() {
   return (
@@ -17,7 +18,7 @@ function App() {
       <Container>
         <Switch>
           <Route exact path="/">
-            <Home />
+            <AllSongs />
           </Route>
           <Route exact path="/Login">
             <Login />
