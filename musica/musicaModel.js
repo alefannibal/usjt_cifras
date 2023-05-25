@@ -18,7 +18,7 @@ const musicaSchema = new mongoose.Schema({
     ref: 'Usuario',
     required: true,
   },
-  userEmail: {
+  fullName: {
     type: String,
     required: true,
   },
