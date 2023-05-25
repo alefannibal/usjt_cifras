@@ -18,7 +18,7 @@ async function registerUser(email, password, confirmPassword, fullName) {
 
 async function authenticateUser(email, password) {
   const user = await Usuario.findOne({ email, password });
-  return user !== null;
+  return user;
 }
 
 module.exports = { registerUser, authenticateUser };

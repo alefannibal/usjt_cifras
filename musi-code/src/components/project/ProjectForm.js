@@ -17,6 +17,9 @@ function ProjectForm({ btnText, onAuthentication }) {
     };
 
     try {
+      console.log('Chamando endpoint /login...');
+      console.log('Dados de login:', data);
+
       const response = await fetch('http://localhost:7000/login', {
         method: 'POST',
         headers: {
@@ -24,6 +27,7 @@ function ProjectForm({ btnText, onAuthentication }) {
         },
         body: JSON.stringify(data),
       });
+
       if (response.ok) {
         // Login bem-sucedido
         console.log('Login bem-sucedido');
