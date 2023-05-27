@@ -31,11 +31,15 @@ function Search() {
     fetchMusicData();
   }, []);
 
+  const handleSearch = async (data) => {
+    // Atualize o estado do musicData com os dados da busca
+    setMusicData(data);
+  };
+
   return (
     <div className={styles.search_container}>
       <div className={styles.display}>
-        <FormSearch />
-        <SubmitSearch />
+        <FormSearch onSearch={handleSearch} />
       </div>
       <div className={styles.center}>
         <h1>Sugestões de Músicas</h1>
