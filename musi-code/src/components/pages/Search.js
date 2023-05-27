@@ -21,7 +21,7 @@ function Search() {
   useEffect(() => {
     const fetchMusicData = async () => {
       try {
-        const response = await axios.get("http://localhost:4000/musica");
+        const response = await axios.get("http://localhost:6001/musica");
         setMusicData(response.data);
       } catch (error) {
         console.error("Erro ao buscar as músicas:", error);

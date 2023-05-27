@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const jwt = require('jsonwebtoken');
 const cors = require('cors');
+const axios = require('axios')
 
 const mongoURI = "mongodb+srv://gustavocord:a99868@cluster0.h3bgjey.mongodb.net/db-musi-code-musica";
 
@@ -54,10 +55,23 @@ function authenticateToken(req, res, next) {
   });
 }
 
+app.post('/events', async (req, res) => {
+  const event = req.body;
+
+  if (event.type === 'GetAllMusicas') {
+    try {
+      const musicas = await Musica.find();
+      res.send(musicas);
+    } catch (error) {
+      console.error('Erro ao buscar as músicas:', error);
+      res.status(500).send({ msg: 'Erro ao buscar as músicas.' });
+    }
+  }
+});
+
 app.get("/musica", async (req, res) => {
   try {
-    const { titulo } = req.query;
-    const musicas = await Musica.find({ titulo }).exec();
+    const musicas = await Musica.find();
     res.status(200).json(musicas);
   } catch (err) {
     console.error("Erro ao consultar músicas:", err);

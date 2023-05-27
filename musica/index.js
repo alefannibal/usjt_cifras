@@ -17,7 +17,6 @@ mongoose
 
 const Musica = require('./musicaModel');
 
-// Middleware para verificar o token de autenticação
 function authenticateToken(req, res, next) {
   const authHeader = req.headers['authorization'];
   const token = authHeader && authHeader.split(' ')[1];
@@ -31,25 +30,29 @@ function authenticateToken(req, res, next) {
       return res.status(403).json({ message: 'Falha na autenticação do token' });
     }
 
-    req.user = user; // Define req.user com as informações do usuário autenticado
+    req.user = user;
     next();
   });
 }
 
-app.get('/musica', async (req, res) => {
-  try {
-    const musicas = await Musica.find();
-    res.send(musicas);
-  } catch (error) {
-    console.error('Erro ao buscar as músicas:', error);
-    res.status(500).send({ msg: 'Erro ao buscar as músicas.' });
+app.post('/events', async (req, res) => {
+  const event = req.body;
+
+  if (event.type === 'GetAllMusicas') {
+    try {
+      const musicas = await Musica.find();
+      res.send(musicas);
+    } catch (error) {
+      console.error('Erro ao buscar as músicas:', error);
+      res.status(500).send({ msg: 'Erro ao buscar as músicas.' });
+    }
   }
 });
 
 app.post('/musica', authenticateToken, async (req, res) => {
   const { titulo, letra, autor } = req.body;
-  const userId = req.user && req.user.id; // Obtém o ID do usuário autenticado
-  const fullName = req.user && req.user.fullName; // Obtém o nome completo do usuário autenticado
+  const userId = req.user && req.user.id;
+  const fullName = req.user && req.user.fullName;
 
   if (!userId) {
     return res.status(400).json({ message: 'O campo userId é obrigatório.' });
@@ -60,8 +63,8 @@ app.post('/musica', authenticateToken, async (req, res) => {
       titulo,
       letra,
       autor,
-      userId, // Salva o ID do usuário no documento de música
-      fullName, // Salva o nome completo do usuário no documento de música
+      userId,
+      fullName,
     });
     await novaMusica.save();
 
@@ -72,6 +75,31 @@ app.post('/musica', authenticateToken, async (req, res) => {
   }
 });
 
+app.delete('/musica/:id', authenticateToken, async (req, res) => {
+  const userId = req.user && req.user.id;
+  const musicaId = req.params.id;
+
+  if (!userId) {
+    return res.status(400).json({ message: 'O campo userId é obrigatório.' });
+  }
+
+  try {
+    const musica = await Musica.findOne({ _id: musicaId, userId });
+
+    if (!musica) {
+      return res.status(404).json({ message: 'Música não encontrada.' });
+    }
+
+    await Musica.findByIdAndRemove(musicaId);
+
+    res.status(200).json({ message: 'Música excluída com sucesso.' });
+  } catch (error) {
+    console.error('Erro ao excluir a música:', error);
+    res.status(500).json({ error: 'Erro ao excluir a música.' });
+  }
+});
+
 app.listen(4000, () => {
   console.log('Servidor de músicas iniciado na porta 4000.');
 });
+``
