@@ -8,7 +8,7 @@ app.use(cors());
 app.use(bodyParser.json());
 
 mongoose
-  .connect('mongodb://localhost:27017/db-musi-code-musica', {
+  .connect('mongodb+srv://gustavocord:a99868@cluster0.h3bgjey.mongodb.net/db-musi-code-musica', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
@@ -52,18 +52,10 @@ app.post('/musica', authenticateToken, async (req, res) => {
   const fullName = req.user && req.user.fullName; // Obtém o nome completo do usuário autenticado
 
   if (!userId) {
-    console.log('ID do usuário não fornecido');
     return res.status(400).json({ message: 'O campo userId é obrigatório.' });
   }
 
   try {
-    console.log('Dados recebidos para adicionar música:');
-    console.log('Título:', titulo);
-    console.log('Letra:', letra);
-    console.log('Autor:', autor);
-    console.log('UserID:', userId);
-    console.log('FullName:', fullName);
-
     const novaMusica = new Musica({
       titulo,
       letra,
@@ -72,8 +64,6 @@ app.post('/musica', authenticateToken, async (req, res) => {
       fullName, // Salva o nome completo do usuário no documento de música
     });
     await novaMusica.save();
-
-    console.log('Música adicionada com sucesso:', novaMusica);
 
     res.status(201).send(novaMusica);
   } catch (error) {

@@ -8,7 +8,7 @@ const jwt = require('jsonwebtoken');
 app.use(cors());
 const { registerUser, authenticateUser } = require('./authService');
 
-const mongoURI = 'mongodb://localhost:27017/db-musi-code-usuarios';
+const mongoURI = 'mongodb+srv://gustavocord:a99868@cluster0.h3bgjey.mongodb.net/db-musi-code-usuarios';
 
 mongoose
   .connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
@@ -28,7 +28,7 @@ app.post('/register', async (req, res) => {
 
   try {
     const user = await registerUser(email, password, confirmPassword, fullName);
-    const token = generateAuthToken({ id: user._id, fullName: user.fullName });
+    const token = generateAuthToken({ id: user._id, email: user.email });
 
     return res.status(201).json({ message: 'Usuário registrado com sucesso', token });
   } catch (error) {

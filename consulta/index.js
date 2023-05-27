@@ -1,8 +1,9 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const jwt = require('jsonwebtoken');
+const cors = require('cors');
 
-const mongoURI = "mongodb://localhost:27017/db-musi-code-musica";
+const mongoURI = "mongodb+srv://gustavocord:a99868@cluster0.h3bgjey.mongodb.net/db-musi-code-musica";
 
 mongoose
   .connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
@@ -11,8 +12,15 @@ mongoose
 
 const app = express();
 app.use(express.json());
+app.use(cors()); // Habilitar CORS
 
-const Usuario = require('../gerenciar-usuarios/usuarioModel');
+const UsuarioSchema = new mongoose.Schema({
+  fullName: String,
+  password: String,
+  email: String
+});
+
+const Usuario = mongoose.model("Usuario", UsuarioSchema);
 
 const MusicaSchema = new mongoose.Schema({
   titulo: String,
@@ -26,6 +34,7 @@ const MusicaSchema = new mongoose.Schema({
 });
 
 const Musica = mongoose.model("Musica", MusicaSchema);
+
 
 function authenticateToken(req, res, next) {
   const authHeader = req.headers['authorization'];
@@ -64,7 +73,9 @@ app.get('/minhas-musicas', authenticateToken, async (req, res) => {
   }
 
   try {
+    console.log('UserId:', userId);
     const musicas = await Musica.find({ userId }).populate('userId', 'fullName');
+    console.log('Músicas:', musicas);
     res.status(200).json(musicas);
   } catch (err) {
     console.error('Erro ao consultar músicas:', err);
@@ -72,4 +83,4 @@ app.get('/minhas-musicas', authenticateToken, async (req, res) => {
   }
 });
 
-app.listen(6000, () => console.log("Servidor iniciado na porta 6000."));
+app.listen(6001, () => console.log("Servidor iniciado na porta 6001."));

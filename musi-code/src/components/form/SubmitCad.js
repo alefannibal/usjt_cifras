@@ -1,11 +1,14 @@
-import styles from './SubmitButton.module.css'
+import React from 'react';
+import styles from './SubmitButton.module.css';
 
-function SubmitCad() {
+function SubmitCad({ text, onClick }) {
   return (
     <div>
-      <button className={styles.btn}>Enviar cadastro</button>
+      <button className={styles.btn} onClick={onClick}>
+        {text}
+      </button>
     </div>
-  )
+  );
 }
 
-export default SubmitCad
+export default SubmitCad;

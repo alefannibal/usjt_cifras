@@ -18,7 +18,7 @@ function FormCad({ btnText }) {
       password,
       confirmPassword,
     };
-
+    
     try {
       const response = await fetch('http://localhost:7000/register', {
         method: 'POST',
