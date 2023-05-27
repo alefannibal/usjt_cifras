@@ -1,6 +1,6 @@
 import FormCad from "../project/FormCad";
 import styles from "./Login.module.css";
-import fundo from "../../img/fundo.jpg";
+import fundo from "../../img/fundo.png";
 import { Link } from "react-router-dom";
 function Login() {
   return (

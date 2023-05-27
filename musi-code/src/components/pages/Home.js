@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 import ProjectForm from "../project/ProjectForm";
 import styles from "./Home.module.css";
-import fundo from "../../img/fundo.jpg";
+import fundo from "../../img/fundo.png";
 
 function Home({ onAuthentication }) {
   return (

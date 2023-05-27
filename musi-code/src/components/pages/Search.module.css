@@ -29,11 +29,3 @@
   align-items: center;
   margin: 20px 0;
 }
-.music_card img {
-  width: 70px;
-  height: 70px;
-  border-radius: 35px;
-}
-.music_card h2 {
-  margin-left: 15px;
-}
