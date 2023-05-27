@@ -11,9 +11,10 @@ import musica from "../../img/musica.png";
 import pesquisar from "../../img/pesquisa.png";
 import sair from "../../img/sair.png";
 
-function Navbar({ authenticated, onAuthentication }) {
+function Navbar({ authenticated, onLogout }) {
   const handleLogout = () => {
-    onAuthentication(false);
+    localStorage.removeItem("token");
+    onLogout();
   };
 
   return (

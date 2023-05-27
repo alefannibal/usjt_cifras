@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Home from './components/pages/Home';
 import Login from './components/pages/Login';
@@ -13,13 +13,23 @@ import Footer from './components/layout/Footer';
 function App() {
   const [authenticated, setAuthenticated] = useState(false);
 
-  function handleAuthentication() {
+  useEffect(() => {
+    // Verificar se o usuário está autenticado ao carregar a página
+    const token = localStorage.getItem('token');
+    if (token) {
+      setAuthenticated(true);
+    }
+  }, []);
+
+  function handleAuthentication(token) {
     setAuthenticated(true);
+    localStorage.setItem('token', token);
     alert('Login bem-sucedido');
   }
 
   function handleLogout() {
     setAuthenticated(false);
+    localStorage.removeItem('token');
   }
 
   return (

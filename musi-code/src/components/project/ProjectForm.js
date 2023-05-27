@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Input from '../form/Input.js';
 import SubmitButton from '../form/SubmitButton.js';
 import styles from './ProjectForm.module.css';
@@ -31,17 +31,22 @@ function ProjectForm({ btnText, onAuthentication }) {
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+
+    if (token) {
+      // Verificar se o token é válido no servidor ou decodificar localmente
+      onAuthentication(token);
+      navigate('/dashboard');
+    }
+  }, []);
+
   const handleLogin = async (e) => {
-    console.log('handleLogin function triggered');
     e.preventDefault();
 
     try {
-      console.log('Calling /login endpoint...');
-      console.log('Login data:', email, password);
-
       const token = await authenticateUser(email, password);
 
-      console.log('Authentication token:', token);
       localStorage.setItem('token', token);
       onAuthentication(token);
       navigate('/dashboard');
