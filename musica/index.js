@@ -35,6 +35,16 @@ function authenticateToken(req, res, next) {
   });
 }
 
+app.get('/musica', async (req, res) => {
+  try {
+    const musicas = await Musica.find();
+    res.send(musicas);
+  } catch (error) {
+    console.error('Erro ao buscar as músicas:', error);
+    res.status(500).send({ msg: 'Erro ao buscar as músicas.' });
+  }
+});
+
 app.post('/events', async (req, res) => {
   const event = req.body;
 
@@ -102,4 +112,3 @@ app.delete('/musica/:id', authenticateToken, async (req, res) => {
 app.listen(4000, () => {
   console.log('Servidor de músicas iniciado na porta 4000.');
 });
-``

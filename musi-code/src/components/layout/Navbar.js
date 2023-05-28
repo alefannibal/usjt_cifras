@@ -15,6 +15,7 @@ function Navbar({ authenticated, onLogout }) {
   const handleLogout = () => {
     localStorage.removeItem("token");
     onLogout();
+    alert("Usuário deslogado")
   };
 
   return (

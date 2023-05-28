@@ -21,15 +21,18 @@ function Search() {
   useEffect(() => {
     const fetchMusicData = async () => {
       try {
-        const response = await axios.get("http://localhost:6001/musica");
+        const response = await axios.post("http://localhost:6001/events", {
+          type: "GetAllMusicas"
+        });
         setMusicData(response.data);
       } catch (error) {
         console.error("Erro ao buscar as músicas:", error);
       }
     };
-
+  
     fetchMusicData();
   }, []);
+  
 
   const handleSearch = async (data) => {
     // Atualize o estado do musicData com os dados da busca

@@ -43,6 +43,7 @@ function FormAdd({ btnText }) {
       const response = await axios.post('http://localhost:4000/musica', data, { headers });
 
       console.log('Música adicionada com sucesso!');
+      alert("musica adicionada com sucesso")
       console.log('Resposta do servidor:', response.data);
       setFormValues({ titulo: '', letra: '', autor: '' });
     } catch (error) {

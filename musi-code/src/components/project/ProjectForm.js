@@ -21,6 +21,7 @@ async function authenticateUser(email, password) {
   } else {
     // Handle login errors
     const errorData = await response.json();
+    alert("Credenciais invalidas")
     console.log('Invalid credentials:', errorData.message);
     throw new Error(errorData.message);
   }

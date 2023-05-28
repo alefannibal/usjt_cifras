@@ -71,7 +71,8 @@ app.post('/events', async (req, res) => {
 
 app.get("/musica", async (req, res) => {
   try {
-    const musicas = await Musica.find();
+    const { titulo } = req.query;
+    const musicas = await Musica.find({ titulo }).exec();
     res.status(200).json(musicas);
   } catch (err) {
     console.error("Erro ao consultar músicas:", err);

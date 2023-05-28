@@ -31,6 +31,7 @@ function FormCad({ btnText }) {
       if (response.ok) {
         // Registro realizado com sucesso
         console.log('Usuário registrado com sucesso');
+        alert("Registro Realizado com sucesso")
       } else {
         // Lidar com erros durante o registro
         const errorData = await response.json();

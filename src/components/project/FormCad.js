@@ -22,7 +22,7 @@ function FormCad({ btnText }) {
       });
 
       console.log(response.data.message);
-
+      alert("Registro realizado com sucesso")
       // Limpar os campos após o envio
       setFullName('');
       setEmail('');
