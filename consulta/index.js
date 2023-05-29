@@ -1,20 +1,21 @@
+//importações:
 const express = require("express");
 const mongoose = require("mongoose");
 const jwt = require('jsonwebtoken');
 const cors = require('cors');
 const axios = require('axios')
-
+//conexão com o mongodb remoto
 const mongoURI = "mongodb+srv://gustavocord:a99868@cluster0.h3bgjey.mongodb.net/db-musi-code-musica";
 
 mongoose
   .connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log("Conexão com o MongoDB estabelecida."))
   .catch((err) => console.error("Erro ao conectar ao MongoDB:", err));
-
+//Habilitando o Express:
 const app = express();
 app.use(express.json());
 app.use(cors()); // Habilitar CORS
-
+//definindo a coleção de usuário:
 const UsuarioSchema = new mongoose.Schema({
   fullName: String,
   password: String,
@@ -22,7 +23,7 @@ const UsuarioSchema = new mongoose.Schema({
 });
 
 const Usuario = mongoose.model("Usuario", UsuarioSchema);
-
+//definindo a coleção de musica:
 const MusicaSchema = new mongoose.Schema({
   titulo: String,
   letra: String,
@@ -36,7 +37,7 @@ const MusicaSchema = new mongoose.Schema({
 
 const Musica = mongoose.model("Musica", MusicaSchema);
 
-
+//função de autenticação do token do usuário:
 function authenticateToken(req, res, next) {
   const authHeader = req.headers['authorization'];
   const token = authHeader && authHeader.split(' ')[1];
@@ -54,7 +55,7 @@ function authenticateToken(req, res, next) {
     next();
   });
 }
-
+//fazendo requisição para o barramento de eventos para retornar todas as musicas:
 app.post('/events', async (req, res) => {
   const event = req.body;
 
@@ -68,7 +69,7 @@ app.post('/events', async (req, res) => {
     }
   }
 });
-
+//fazendo requisição para retornar as musicas com o titulo igual::
 app.get("/musica", async (req, res) => {
   try {
     const { titulo } = req.query;
