@@ -9,4 +9,4 @@ Projeto multidisciplinar de implementação de músicas e suas respectivas cifra
 * Paulo Henrique Augusto - 821250399 <br/>
 
 Vídeo de apresentação do projeto
-https://youtu.be/eja7HzAzWS4
+https://youtu.be/909Tkyi05Q8
