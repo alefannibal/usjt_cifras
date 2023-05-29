@@ -36,7 +36,36 @@ function MySongs() {
   }, []);
 
   const handleRemoveMusic = (id) => {
-    // Lógica para remover a música com o ID especificado
+    const token = localStorage.getItem('token');
+
+    if (!token) {
+      console.error('Token não encontrado.');
+      return;
+    }
+
+    const headers = {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    };
+
+    console.log('Removendo música...');
+    console.log('Token:', token);
+    console.log('Música identificada:', id);
+
+    fetch(`http://localhost:4000/musica/${id}`, {
+      method: 'DELETE',
+      headers: headers,
+    })
+      .then(response => response.json())
+      .then(data => {
+        alert("Música deletada")
+        console.log('Música deletada:', data);
+        // Atualizar a lista de músicas após a exclusão bem-sucedida
+        setMusicas(prevMusicas => prevMusicas.filter(musica => musica._id !== id));
+      })
+      .catch(error => {
+        console.error('Erro ao excluir música:', error);
+      });
   };
 
   return (
@@ -44,11 +73,11 @@ function MySongs() {
       <h1 className={styles.title}>Minhas Músicas</h1>
       {Array.isArray(musicas) ? (
         musicas.map(musica => (
-          <div className={styles.container_musica} key={musica.id}>
+          <div className={styles.container_musica} key={musica._id}>
             <h2>{musica.titulo}</h2>
             <p className={styles.container_musica_autor}>Autor: {musica.autor}</p>
             <p className={styles.container_musica_letra}>Letra: {musica.letra}</p>
-            <button className={styles.btn} onClick={() => handleRemoveMusic(musica.id)}>
+            <button className={styles.btn} onClick={() => handleRemoveMusic(musica._id)}>
               Remover Música
             </button>
           </div>
@@ -56,7 +85,7 @@ function MySongs() {
       ) : (
         <p>Não foi possível obter as músicas.</p>
       )}
-      <button className={styles.btn}>
+     <button className={styles.btn}>
         <Link to="/AddMusica">Adicionar Música</Link>
       </button>
     </div>
