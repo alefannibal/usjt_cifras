@@ -18,9 +18,11 @@
   align-items: center;
   flex-direction: column;
   width: 450px;
-  margin: 0 auto;
+  margin: 3em auto;
   padding: 3em;
   text-align: justify;
+  border: 4px solid #e4b7d2;
+  border-radius: 4px;
 }
 
 .music_card h2 {
