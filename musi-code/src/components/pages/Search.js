@@ -8,9 +8,9 @@ function MusicCard({ titulo, autor, letra, fullName }) {
   return (
     <div className={styles.music_card}>
       <h2>{titulo}</h2>
-      <p>Autor: {autor}</p>
-      <p>Letra: {letra}</p>
-      <p>Nome do publicador: {fullName}</p>
+      <p className={styles.musicAuthor}>Autor: {autor}</p>
+      <p className={styles.musicLyrics}>Letra: {letra}</p>
+      <p className={styles.musicFullName}>Nome do publicador: {fullName}</p>
     </div>
   );
 }
@@ -44,18 +44,16 @@ function Search() {
       <div className={styles.display}>
         <FormSearch onSearch={handleSearch} />
       </div>
-      <div className={styles.center}>
-        <h1>Sugestões de Músicas</h1>
-        {musicData.map((music) => (
-          <MusicCard
-            key={music._id}
-            titulo={music.titulo}
-            autor={music.autor}
-            letra={music.letra}
-            fullName={music.fullName}
-          />
-        ))}
-      </div>
+      
+      {musicData.map((music) => (
+        <MusicCard
+          key={music._id}
+          titulo={music.titulo}
+          autor={music.autor}
+          letra={music.letra}
+          fullName={music.fullName}
+        />
+      ))}
     </div>
   );
 }

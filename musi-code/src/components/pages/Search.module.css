@@ -5,17 +5,6 @@
   text-align: center;
 }
 
-.search_container h1 {
-  font-size: 1.8rem;
-  margin-bottom: 0.5em;
-  width: fit-content;
-}
-
-.center {
-  width: fit-content;
-  margin: 0 auto;
-}
-
 .display {
   display: flex;
   align-items: center;
@@ -27,5 +16,26 @@
 .music_card {
   display: flex;
   align-items: center;
-  margin: 20px 0;
+  flex-direction: column;
+  width: 450px;
+  margin: 0 auto;
+  padding: 3em;
+  text-align: justify;
+}
+
+.music_card h2 {
+  font-weight: bold;
+}
+
+.music_card .musicAuthor {
+  margin-bottom: 0.5em;
+}
+
+.music_card .musicLyrics {
+  font-size: 20px;
+}
+
+.music_card .musicFullName {
+  font-size: 13px;
+  color: #7b7b7b;
 }

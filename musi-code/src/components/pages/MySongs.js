@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styles from './MySongs.module.css';
+import ProjectCard from '../project/ProjectCard';
+import { Link } from 'react-router-dom';
 
 function MySongs() {
   const [musicas, setMusicas] = useState([]);
@@ -33,20 +35,30 @@ function MySongs() {
       });
   }, []);
 
+  const handleRemoveMusic = (id) => {
+    // Lógica para remover a música com o ID especificado
+  };
+
   return (
     <div>
-      <h1>Minhas Músicas</h1>
+      <h1 className={styles.title}>Minhas Músicas</h1>
       {Array.isArray(musicas) ? (
         musicas.map(musica => (
-          <div className={styles.container_musica} key={musica._id}>
-            <h2 className={styles.container_musica_titulo}>{musica.titulo}</h2>
-            <h3 className={styles.container_musica_autor}>{musica.autor}</h3>
-            <p className={styles.container_musica_letra}>{musica.letra}</p>
+          <div className={styles.container_musica} key={musica.id}>
+            <h2>{musica.titulo}</h2>
+            <p className={styles.container_musica_autor}>Autor: {musica.autor}</p>
+            <p className={styles.container_musica_letra}>Letra: {musica.letra}</p>
+            <button className={styles.btn} onClick={() => handleRemoveMusic(musica.id)}>
+              Remover Música
+            </button>
           </div>
         ))
       ) : (
         <p>Não foi possível obter as músicas.</p>
       )}
+      <button className={styles.btn}>
+        <Link to="/AddMusica">Adicionar Música</Link>
+      </button>
     </div>
   );
 }
