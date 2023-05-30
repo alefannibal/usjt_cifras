@@ -35,16 +35,6 @@ function authenticateToken(req, res, next) {
   });
 }
 
-app.get('/musica', async (req, res) => {
-  try {
-    const musicas = await Musica.find();
-    res.send(musicas);
-  } catch (error) {
-    console.error('Erro ao buscar as músicas:', error);
-    res.status(500).send({ msg: 'Erro ao buscar as músicas.' });
-  }
-});
-
 app.post('/events', async (req, res) => {
   const event = req.body;
 
