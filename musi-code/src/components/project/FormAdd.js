@@ -3,10 +3,12 @@ import axios from 'axios';
 import InputAdd from '../form/InputAdd';
 import SubmitAdd from '../form/SubmitAdd';
 import styles from './FormAdd.module.css';
+import { useNavigate } from 'react-router-dom';
 
 function FormAdd({ btnText }) {
   const [formValues, setFormValues] = useState({ titulo: '', letra: '', autor: '' });
   const textAreaRef = useRef(null);
+  const navigate = useNavigate();
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -43,9 +45,11 @@ function FormAdd({ btnText }) {
       const response = await axios.post('http://localhost:4000/musica', data, { headers });
 
       console.log('Música adicionada com sucesso!');
-      alert("musica adicionada com sucesso")
+      alert("Música adicionada com sucesso");
       console.log('Resposta do servidor:', response.data);
       setFormValues({ titulo: '', letra: '', autor: '' });
+
+      navigate('/MySongs'); // Redirecionar para a rota "/MySongs"
     } catch (error) {
       console.error('Erro ao adicionar música:', error.response.data);
     }

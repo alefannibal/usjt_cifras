@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Input from '../form/Input.js';
 import SubmitCad from '../form/SubmitCad.js';
 import styles from './ProjectForm.module.css';
@@ -8,6 +9,7 @@ function FormCad({ btnText }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const navigate = useNavigate();
 
   const handleRegister = async (e) => {
     e.preventDefault();
@@ -18,7 +20,7 @@ function FormCad({ btnText }) {
       password,
       confirmPassword,
     };
-    
+
     try {
       const response = await fetch('http://localhost:7000/register', {
         method: 'POST',
@@ -29,11 +31,10 @@ function FormCad({ btnText }) {
       });
 
       if (response.ok) {
-        // Registro realizado com sucesso
         console.log('Usuário registrado com sucesso');
         alert("Registro Realizado com sucesso")
+        navigate('/'); // Redirecionar para a rota "/"
       } else {
-        // Lidar com erros durante o registro
         const errorData = await response.json();
         console.log('Erro durante o registro:', errorData.message);
       }

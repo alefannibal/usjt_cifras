@@ -21,7 +21,7 @@ async function authenticateUser(email, password) {
   } else {
     // Handle login errors
     const errorData = await response.json();
-    alert("Credenciais invalidas")
+    alert("Credenciais inválidas");
     console.log('Invalid credentials:', errorData.message);
     throw new Error(errorData.message);
   }
@@ -50,7 +50,7 @@ function ProjectForm({ btnText, onAuthentication }) {
 
       localStorage.setItem('token', token);
       onAuthentication(token);
-      navigate('/dashboard');
+      navigate('/Search');
     } catch (error) {
       console.log('Invalid credentials:', error.message);
     }

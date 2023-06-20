@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Home from './components/pages/Home';
@@ -33,6 +32,15 @@ function App() {
     localStorage.removeItem('token');
   }
 
+  function PrivateRoute({ element, ...rest }) {
+    if (authenticated) {
+      return <Route {...rest} element={element} />;
+    } else {
+      alert('Faça login para acessar essa página');
+      return <Navigate to="/" />;
+    }
+  }
+
   return (
     <Router>
       <Navbar onLogout={handleLogout} />
@@ -42,17 +50,10 @@ function App() {
             path="/"
             element={<Home authenticated={authenticated} onAuthentication={handleAuthentication} />}
           />
-          {authenticated ? (
-            // Rotas acessíveis apenas para usuários autenticados
-            <>
-              <Route path="/AddMusica" element={<AddMusica />} />
-              <Route path="/Search" element={<Search />} />
-              <Route path="/MySongs" element={<MySongs />} />
-            </>
-          ) : (
-            // Redirecionar para a página de login se não estiver autenticado
-            <Route path="/Login" element={<Login onAuthentication={handleAuthentication} />} />
-          )}
+          <Route path="/Login" element={<Login onAuthentication={handleAuthentication} />} />
+          <Route path="/AddMusica" element={<PrivateRoute element={<AddMusica />} />} />
+          <Route path="/Search" element={<PrivateRoute element={<Search />} />} />
+          <Route path="/MySongs" element={<PrivateRoute element={<MySongs />} />} />
         </Routes>
       </Container>
       <Footer />
