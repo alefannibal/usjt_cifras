@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate, useLocation} from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Home from './components/pages/Home';
 import Login from './components/pages/Login';
 import AddMusica from './components/pages/AddMusica';
@@ -17,19 +17,10 @@ function App() {
     const token = localStorage.getItem('token');
     if (token) {
       setAuthenticated(true);
+    } else {
+      setAuthenticated(false); // Adicionado para garantir que o estado seja atualizado corretamente
     }
   }, []);
-
-  useEffect(() => {
-    window.addEventListener('beforeunload', handleBeforeUnload);
-    return () => {
-      window.removeEventListener('beforeunload', handleBeforeUnload);
-    };
-  }, []);
-
-  function handleBeforeUnload() {
-    handleLogout();
-  }
 
   function handleAuthentication(token) {
     setAuthenticated(true);
@@ -42,50 +33,29 @@ function App() {
     localStorage.removeItem('token');
   }
 
-  function ProtectedRoute({ element, ...rest }) {
-    const [authenticated, setAuthenticated] = useState(false);
-    const [accessDenied, setAccessDenied] = useState(false);
-    const location = useLocation();
-  
+  const ProtectedRoute = ({ element: Element, ...rest }) => {
+    const isLoggedIn = authenticated; // Armazena o estado de autenticação em uma variável local
+
     useEffect(() => {
-      const token = localStorage.getItem('token');
-      if (token) {
-        setAuthenticated(true);
-      }
-    }, []);
-  
-    useEffect(() => {
-      if (!authenticated && location.pathname !== '/') {
+      if (!isLoggedIn) {
+        console.log('Access denied. Redirecting to /Login.');
         alert('Acesso negado: Faça login para acessar essa página');
-        setAccessDenied(true);
       }
-    }, [authenticated, location]);
-  
-    if (accessDenied) {
-      return <Navigate to="/" replace />;
-    }
-  
-    return authenticated ? React.cloneElement(element, { authenticated }) : null;
-  }
+    }, [isLoggedIn]);
+
+    return isLoggedIn ? <Element {...rest} /> : <Navigate to="/Login" replace />;
+  };
 
   return (
     <Router>
       <Navbar onLogout={handleLogout} />
       <Container>
         <Routes>
-          <Route
-            path="/"
-            element={<Home authenticated={authenticated} onAuthentication={handleAuthentication} />}
-          />
-          <Route
-            path="/Login"
-            element={
-              authenticated ? <Navigate to="/" replace /> : <Login onAuthentication={handleAuthentication} />
-            }
-          />
-          <Route path="/AddMusica" element={<ProtectedRoute element={<AddMusica />} />} />
-          <Route path="/Search" element={<ProtectedRoute element={<Search />} />} />
-          <Route path="/MySongs" element={<ProtectedRoute element={<MySongs />} />} />
+          <Route path="/" element={<Home authenticated={authenticated} onAuthentication={handleAuthentication} />} />
+          <Route path="/Login" element={<Login onAuthentication={handleAuthentication} />} />
+          <Route path="/AddMusica" element={<ProtectedRoute element={AddMusica} />} />
+          <Route path="/Search" element={<ProtectedRoute element={Search} />} />
+          <Route path="/MySongs" element={<ProtectedRoute element={MySongs} />} />
         </Routes>
       </Container>
       <Footer />
