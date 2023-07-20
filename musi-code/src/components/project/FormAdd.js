@@ -49,7 +49,7 @@ function FormAdd({ btnText }) {
       console.log('Resposta do servidor:', response.data);
       setFormValues({ titulo: '', letra: '', autor: '' });
 
-      navigate('/MySongs'); // Redirecionar para a rota "/MySongs"
+      navigate('/Profile'); // Redirecionar para a rota "/MySongs"
     } catch (error) {
       console.error('Erro ao adicionar música:', error.response.data);
     }

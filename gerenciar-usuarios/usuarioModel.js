@@ -14,6 +14,7 @@ const usuarioSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  description: String, // Novo campo de descrição
 });
 
 const Usuario = mongoose.model('Usuario', usuarioSchema);

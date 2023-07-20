@@ -7,7 +7,7 @@ import styles from "./Navbar.module.css";
 import logo from "../../img/logo.png";
 import home from "../../img/home.png";
 import adicionar from "../../img/adicionar.png";
-import musica from "../../img/musica.png";
+import musica from "../../img/user.png";
 import pesquisar from "../../img/pesquisa.png";
 import sair from "../../img/sair.png";
 
@@ -49,7 +49,7 @@ function Navbar({ authenticated, onLogout }) {
             </Link>
           </li>
           <li className={styles.item}>
-            <Link to="/MySongs">
+            <Link to="/Profile">
               <img src={musica} alt="MusiCode" placeholder="Minhas Músicas" />
             </Link>
           </li>

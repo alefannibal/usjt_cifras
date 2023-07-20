@@ -4,12 +4,11 @@ import Home from './components/pages/Home';
 import Login from './components/pages/Login';
 import AddMusica from './components/pages/AddMusica';
 import Search from './components/pages/Search';
-import MySongs from './components/pages/MySongs';
-
+import Profile from './components/pages/Profile';
 import Container from './components/layout/Container';
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
-
+import PublicProfile from "./components/pages/PublicProfile"
 function App() {
   const [authenticated, setAuthenticated] = useState(false);
 
@@ -17,8 +16,6 @@ function App() {
     const token = localStorage.getItem('token');
     if (token) {
       setAuthenticated(true);
-    } else {
-      setAuthenticated(false); // Adicionado para garantir que o estado seja atualizado corretamente
     }
   }, []);
 
@@ -34,16 +31,12 @@ function App() {
   }
 
   const ProtectedRoute = ({ element: Element, ...rest }) => {
-    const isLoggedIn = authenticated; // Armazena o estado de autenticação em uma variável local
+    // Verificamos se o token está presente no localStorage ao renderizar o componente
+    const isLoggedIn = localStorage.getItem('token') ? true : false;
 
-    useEffect(() => {
-      if (!isLoggedIn) {
-        console.log('Access denied. Redirecting to /Login.');
-        alert('Acesso negado: Faça login para acessar essa página');
-      }
-    }, [isLoggedIn]);
-
-    return isLoggedIn ? <Element {...rest} /> : <Navigate to="/Login" replace />;
+    // Removemos a função useEffect e o alerta de "Acesso negado" para evitar exibições desnecessárias
+    // Se o usuário não estiver autenticado, o Navigate redirecionará para a rota de login
+    return isLoggedIn ? <Element {...rest} /> : <Navigate to="/" replace />;
   };
 
   return (
@@ -55,7 +48,8 @@ function App() {
           <Route path="/Login" element={<Login onAuthentication={handleAuthentication} />} />
           <Route path="/AddMusica" element={<ProtectedRoute element={AddMusica} />} />
           <Route path="/Search" element={<ProtectedRoute element={Search} />} />
-          <Route path="/MySongs" element={<ProtectedRoute element={MySongs} />} />
+          <Route path="/Profile" element={<ProtectedRoute element={Profile} />} />
+          <Route path="/PublicProfile/:userId" element={<ProtectedRoute element={PublicProfile} />} />
         </Routes>
       </Container>
       <Footer />

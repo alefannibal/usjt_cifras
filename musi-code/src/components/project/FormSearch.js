@@ -2,32 +2,28 @@ import React, { useState } from 'react';
 import InputSearch from '../form/InputSearch';
 import styles from './FormSearch.module.css';
 import SubmitSearch from '../form/SubmitSearch';
+import axios from 'axios';
 
 function FormSearch({ onSearch }) {
   const [searchQuery, setSearchQuery] = useState('');
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
+  
     try {
-      const response = await fetch(`http://localhost:6001/musica?titulo=${searchQuery}`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-
-      if (!response.ok) {
+      const response = await axios.get(`http://localhost:6001/musicas?titulo=${searchQuery}`);
+  
+      if (response.status === 200) {
+        const data = response.data;
+        console.log('Resposta da busca:', data); // Imprime a resposta da busca no console
+        onSearch(data); // Chama a função onSearch passada como prop do componente
+      } else {
         throw new Error('Erro ao buscar dados');
       }
-
-      const data = await response.json();
-      console.log('Resposta da busca:', data); // Imprime a resposta da busca no console
-      onSearch(data); // Chama a função onSearch passada como prop do componente
     } catch (error) {
       console.error('Erro:', error);
     }
-  };
+  };  
 
   const handleChange = (event) => {
     setSearchQuery(event.target.value);

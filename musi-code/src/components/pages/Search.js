@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom"; // Importe o Link do React Router
 import SubmitSearch from "../form/SubmitSearch";
 import FormSearch from "../project/FormSearch";
 import styles from "./Search.module.css";
 import axios from "axios";
 
-function MusicCard({ titulo, autor, letra, fullName }) {
+function MusicCard({ titulo, autor, letra, fullName, userId}) {
   const [showFull, setShowFull] = useState(false);
 
   const handleReadMore = () => {
@@ -39,7 +40,11 @@ function MusicCard({ titulo, autor, letra, fullName }) {
           </>
         )}
       </p>
-      <p className={styles.musicFullName}>Nome do publicador: {fullName}</p>
+      {/* Nome do publicador como um link para /PublicProfile */}
+      <p className={styles.musicFullName}>
+        Nome do publicador:{" "}
+        <Link to={`/PublicProfile/${userId}`}>{fullName}</Link>
+      </p>
     </div>
   );
 }
@@ -62,10 +67,10 @@ function Search() {
     fetchMusicData();
   }, []);
 
-  const handleSearch = async (data) => {
+  const handleSearch = (data) => {
     // Atualize o estado do musicData com os dados da busca
     setMusicData(data);
-  };
+  };  
 
   return (
     <div className={styles.search_container}>
@@ -80,6 +85,7 @@ function Search() {
           autor={music.autor}
           letra={music.letra}
           fullName={music.fullName}
+          userId={music.userId}
         />
       ))}
     </div>
